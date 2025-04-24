@@ -1,0 +1,78 @@
+-> Without useMemo Hook
+
+import { useState } from "react";
+
+const App = () => {
+  const [counter, setCounter] = useState(0);
+  const [number, setNumber] = useState(2);
+  const factorial = fact(number);
+  return (
+    <div>
+      <center>
+        Factorial : {factorial} <br />
+        <br />
+        <button onClick={() => setCounter(counter + 1)}>Increment</button>
+        <br />
+        <br />
+        counter : {counter} <br />
+        <br />
+        <button onClick={() => setNumber(number + 1)}>Factorial</button>
+      </center>
+    </div>
+  );
+};
+
+const fact = (n) => {
+  let ans = 1;
+  for (let i = n; i >= 1; i--) {
+    ans = ans * i;
+  }
+  console.log("Factorial function calling");
+  return ans;
+};
+
+export default App;
+
+-> After applying useMemo Hook
+
+import { useState, useMemo } from "react";
+
+const App = () => {
+  const [counter, setCounter] = useState(0);
+  const [number, setNumber] = useState(2);
+  const factorial = useMemo(() => fact(number), [number]);
+  return (
+    <div>
+      <center>
+        <button onClick={() => setCounter(counter + 1)}>
+          Counter Increment
+        </button>
+        <br />
+        <br />
+        counter : {counter} <br />
+        <br />
+        <button onClick={() => setNumber(number + 1)}>Number Factorial</button>
+        <br />
+        <br />
+        Factorial : {factorial}
+      </center>
+    </div>
+  );
+};
+
+const fact = (n) => {
+  let ans = 1;
+  for (let i = n; i >= 1; i--) {
+    ans = ans * i;
+  }
+  console.log("Factorial function calling");
+  return ans;
+};
+
+export default App;
+
+
+
+
+
+

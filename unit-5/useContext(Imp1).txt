@@ -1,0 +1,53 @@
+import { useState, createContext, useContext } from "react";
+
+const UserContext = createContext();
+
+export default function App() {
+  const [user, setUser] = useState("React");
+
+  return (
+    <UserContext.Provider value={user}>
+      <h1>{`Hello ${user}!`}</h1>
+      <button onClick={() => setUser("ReactJS")}>Change</button>
+      <ChildA />
+    </UserContext.Provider>
+  );
+}
+
+function ChildA() {
+  return (
+    <>
+      <h1>Child A</h1>
+      <ChildB />
+    </>
+  );
+}
+
+function ChildB() {
+  return (
+    <>
+      <h1>Child B</h1>
+      <ChildC />
+    </>
+  );
+}
+
+function ChildC() {
+  return (
+    <>
+      <h1>Child C</h1>
+      <ChildD />
+    </>
+  );
+}
+
+function ChildD() {
+  const user = useContext(UserContext);
+
+  return (
+    <>
+      <h1>Child D</h1>
+      <h2>{`Hello ${user} again!`}</h2>
+    </>
+  );
+}

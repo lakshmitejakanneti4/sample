@@ -1,0 +1,68 @@
+import React, { useState } from "react";
+
+export default function App() {
+  const [data, setData] = useState({
+    userName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const { userName, email, password, confirmPassword } = data;
+  const changeHandler = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (userName.length <= 5) {
+      alert("username must be atleast 5 characters");
+    } else if (password !== confirmPassword) {
+      alert("Passwords are not matching");
+    } else {
+      console.log(data);
+    }
+  };
+  return (
+    <div>
+      <center>
+        <form onSubmit={submitHandler}>
+          <input
+            type="text"
+            placeholder="Enter Username"
+            value={userName}
+            name="userName"
+            onChange={changeHandler}
+          />
+          <br />
+          <input
+            type="email"
+            placeholder="Enter Email id"
+            value={email}
+            name="email"
+            onChange={changeHandler}
+          />
+          <br />
+          <input
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            name="password"
+            onChange={changeHandler}
+          />
+          <br />
+          <input
+            type="password"
+            placeholder="Enter confirm password"
+            value={confirmPassword}
+            name="confirmPassword"
+            onChange={changeHandler}
+          />
+          <br />
+          {password !== confirmPassword ? (
+            <p style={{ color: "red" }}>Passwords are not matching</p>
+          ) : null}
+          <input type="submit" name="submit" />
+        </form>
+      </center>
+    </div>
+  );
+}

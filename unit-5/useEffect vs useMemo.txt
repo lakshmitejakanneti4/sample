@@ -1,0 +1,21 @@
+import { useState, useEffect, useMemo } from "react";
+
+const App = () => {
+  const [effect, setEffect] = useState(0);
+  const [memo, setMemo] = useState(0);
+  useEffect(() => console.log("From useEffect " + effect), [effect]);
+  useMemo(() => console.log("From useMemo " + memo), [memo]);
+  return (
+    <div>
+      <center>
+        <button onClick={() => setEffect(effect + 1)}>
+          useEffect Increment
+        </button>{" "}
+        <br />
+        <button onClick={() => setMemo(memo + 1)}>useMemo Increment</button>
+      </center>
+    </div>
+  );
+};
+
+export default App;

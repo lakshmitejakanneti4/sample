@@ -1,0 +1,68 @@
+Install axios using 
+=> npm install axios
+
+=> using promise
+
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+export default function App() {
+  const [data, setData] = useState([]);
+  const [isError, setIsError] = useState("");
+  useEffect(() => {
+    axios
+      .get("https://jsonplaceholder.typicode.com/todos")
+      .then((res) => setData(res.data))
+      .catch((error) => setIsError(error.message));
+  }, []);
+  return (
+    <div>
+      <h2>List of titles:</h2>
+      {isError !== "" && <h2>{isError}</h2>}
+      <ol>
+        {data.map((ele) => (
+          <li key={ele.id}>{ele.title}</li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+
+=> using async/await
+
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+function App() {
+  const [data, setData] = useState([]);
+  const [isError, setIsError] = useState("");
+  async function fetchData() {
+    try {
+      const response = await axios.get(
+        "https://jsonplaceholder.typicode.com/todos"
+      );
+      setData(response.data);
+    } catch (error) {
+      setIsError(error.message);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+  return (
+    <div>
+      <h1>List of Titles:</h1>
+      {isError !== "" && <h2>{isError}</h2>}
+      <ol>
+        {data.map((item) => (
+          <li key={item.id}>{item.title}</li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+export default App;
+

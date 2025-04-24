@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      label {
+        display: inline-block;
+        width: 80px;
+      }
+      input {
+        width: 120px;
+      }
+    </style>
+  </head>
+  <body>
+    <label>Name</label>
+    <input type="text" id="name" /><br /><br />
+    <label>RollNo</label>
+    <input type="text" id="rollno" /><br /><br />
+    <label>Branch</label>
+    <input type="text" id="branch" /><br /><br />
+    <label>Section</label>
+    <input type="text" id="section" /><br /><br />
+
+    <hr />
+    <button id="select">SELECT</button>
+    <button id="insert">INSERT</button>
+    <button id="update">UPDATE</button>
+    <button id="delete">DELETE</button>
+    <button id="clear">CLEAR</button>
+
+    <!----- Imports + Configuration ----->
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyAuKeapyxf-MKj2Uk5sCGbe4rV_bTWmsCQ",
+        authDomain: "we-demo-fdp.firebaseapp.com",
+        databaseURL: "https://we-demo-fdp-default-rtdb.firebaseio.com",
+        projectId: "we-demo-fdp",
+        storageBucket: "we-demo-fdp.appspot.com",
+        messagingSenderId: "210361764862",
+        appId: "1:210361764862:web:fd3995524acb62e4068eaf",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+
+      import {
+        getDatabase,
+        ref,
+        get,
+        set,
+        child,
+        update,
+        remove,
+      } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-database.js";
+
+      const db = getDatabase();
+
+      // References
+      var nameBox = document.getElementById("name");
+      var rollBox = document.getElementById("rollno");
+      var branchBox = document.getElementById("branch");
+      var sectionBox = document.getElementById("section");
+
+      var selBtn = document.getElementById("select");
+      var insBtn = document.getElementById("insert");
+      var updBtn = document.getElementById("update");
+      var delBtn = document.getElementById("delete");
+      var clrBtn = document.getElementById("clear");
+
+      // InsertData function
+      function InsertData() {
+        set(ref(db, "TheStudents/" + rollBox.value), {
+          NameOfStd: nameBox.value,
+          RollNo: rollBox.value,
+          Branch: branchBox.value,
+          Section: sectionBox.value,
+        })
+          .then(() => {
+            alert("data stored successfully");
+          })
+          .catch((err) => {
+            alert("unsuccessful, error" + err);
+          });
+      }
+
+      function SelectData() {
+        const dbref = ref(db);
+        get(child(dbref, "TheStudents/" + rollBox.value))
+          .then((snaphot) => {
+            if (snaphot.exists()) {
+              nameBox.value = snaphot.val().NameOfStd;
+              branchBox.value = snaphot.val().Branch;
+              sectionBox.value = snaphot.val().Section;
+            } else {
+              alert("No data found");
+            }
+          })
+          .catch((err) => {
+            alert("unsuccessful, error" + err);
+          });
+      }
+
+      function UpdateData() {
+        update(ref(db, "TheStudents/" + rollBox.value), {
+          NameOfStd: nameBox.value,
+          Branch: branchBox.value,
+          Section: sectionBox.value,
+        })
+          .then(() => {
+            alert("data updated successfully");
+          })
+          .catch((err) => {
+            alert("unsuccessful, error" + err);
+          });
+      }
+
+      function DeleteData() {
+        remove(ref(db, "TheStudents/" + rollBox.value))
+          .then(() => {
+            alert("data removed successfully");
+          })
+          .catch((err) => {
+            alert("unsuccessful, error" + err);
+          });
+      }
+
+      function ClearData() {
+        nameBox.value = "";
+        rollBox.value = "";
+        branchBox.value = "";
+        sectionBox.value = "";
+      }
+
+      insBtn.addEventListener("click", InsertData);
+      selBtn.addEventListener("click", SelectData);
+      updBtn.addEventListener("click", UpdateData);
+      delBtn.addEventListener("click", DeleteData);
+      clrBtn.addEventListener("click", ClearData);
+    </script>
+  </body>
+</html>

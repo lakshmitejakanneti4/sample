@@ -1,0 +1,38 @@
+import React from "react";
+import Parent from "./Parent";
+
+export default function App() {
+  return (
+    <div>
+      <center>
+        <Parent />
+      </center>
+    </div>
+  );
+}
+
+import React, { useState } from "react";
+import Child from "./Child";
+
+export default function Parent() {
+  const [message, setMessage] = useState("Hello World");
+  const chooseMessage = (message) => setMessage(message);
+  return (
+    <div>
+      <h1>{message}</h1>
+      <Child chooseMessage={chooseMessage} />
+    </div>
+  );
+}
+
+
+import React from "react";
+
+export default function Child({ chooseMessage }) {
+  let msg = "Good Bye";
+  return (
+    <div>
+      <button onClick={() => chooseMessage(msg)}>Change Message</button>
+    </div>
+  );
+}
